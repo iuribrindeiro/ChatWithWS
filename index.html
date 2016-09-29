@@ -38,7 +38,7 @@
 <script src="//js.pusher.com/3.2/pusher.min.js"></script>
 
 <script>
-    var pusher = new Pusher('235524ad737c76994c6b');
+    var pusher = new Pusher('APP_KEY');
     var canal = pusher.subscribe('chat-usuarios');
     canal.bind('novaMensagem', function(data) {
         var mensagem = data.mensagem;
