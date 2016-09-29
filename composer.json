@@ -1,0 +1,7 @@
+{
+  "name": "websocket",
+  "description": "Brincando com Websocket",
+  "require": {
+    "pusher/pusher-php-server": "^2.2"
+  }
+}

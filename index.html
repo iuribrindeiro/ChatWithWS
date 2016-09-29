@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="chat.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <title>Chat</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">Chat</div>
+                <div class="panel-body">
+                    <div class="container" id="mensagens">
+                    </div>
+                    <div class="panel-footer">
+                        <div class="input-group">
+                            <input id="campo-mensagem" type="text" class="form-control">
+                      <span class="input-group-btn">
+                        <button id="btnEnviar" class="btn btn-default" type="button">Enviar</button>
+                      </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hidden" id="nova-mensagem">
+        <div class="row message-bubble">
+            <p class="text-muted">Usuário do Chat</p>
+            <p id="mensagem"></p>
+        </div>
+    </div>
+</body>
+
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+<script src="//js.pusher.com/3.2/pusher.min.js"></script>
+
+<script>
+    var pusher = new Pusher('235524ad737c76994c6b');
+    var canal = pusher.subscribe('chat-usuarios');
+    canal.bind('novaMensagem', function(data) {
+        var mensagem = data.mensagem;
+        mostraMensagem(mensagem);
+    });
+
+    function enviaMensagem() {
+        var mensagem = $('#campo-mensagem').val();
+        $('#campo-mensagem').val('');
+        $.post('chat.php', {mensagem: mensagem}, function(){}, 'JSON');
+    }
+
+    function mostraMensagem(mensagem) {
+        $novaMensagem = $('#nova-mensagem').children().clone();
+        $novaMensagem.find('#mensagem').html(mensagem);
+        $('#mensagens').append($novaMensagem);
+    }
+
+    $('#btnEnviar').click(function() {
+        enviaMensagem();
+    });
+</script>
+</html>
